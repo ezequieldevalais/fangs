@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5433:5432
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=fangspassword
+      - POSTGRES_USER=fangs
+      - POSTGRES_DB=postgres
+    networks:
+      - fangs_network
+
+  fangsapp:
+      build:
+        context: .
+      volumes:
+        - ./src:/app/src
+      depends_on:
+        - postgres
+      ports:
+        - 3000:3000
+      networks:
+        - fangs_network
+
+
+networks:
+  fangs_network:
+    driver: bridge
