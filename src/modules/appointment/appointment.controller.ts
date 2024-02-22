@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { Appointment } from './appointment.entity';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
@@ -16,6 +16,7 @@ export class AppointmentController {
     @Get(':id')
     getAppointment(@Param('id') id: string): Appointment {
         return this.appointmentService.getAppointment(id)
+    
     }
 
     @Post()

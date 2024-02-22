@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException} from '@nestjs/common';
 import { Appointment } from './appointment.entity';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -20,7 +20,11 @@ export class AppointmentService {
     }
 
     getAppointment(id: string): Appointment {
-        return this.appointments.find((appointment) => appointment.id === id )
+        const appointment = this.appointments.find((appointment) => appointment.id === id )
+        if(!appointment) {
+            throw new NotFoundException("Resource not found");
+        }
+        return appointment
     }
 
     createAppointment(patientName: string, professionalName: string, date: Date) {
