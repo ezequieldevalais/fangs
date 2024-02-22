@@ -10,7 +10,7 @@ import { AppointmentController } from './appointment/appointment.controller';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '172.19.0.2',
+      host: 'postgres',
       port: 5432,
       password: 'fangspassword',
       username: 'fangs',

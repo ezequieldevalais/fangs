@@ -8,26 +8,16 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @Column({ type: 'varchar', length: 15 })
+  @Column({ type: 'varchar', length: 100 })
   username: string;
 
-  @Column({ type: 'varchar', length: 40 })
+  @Column({ type: 'varchar', length: 100 })
   email: string;
-
-  @Column({ type: 'int' })
-  age: number;
 
   @Column({ type: 'varchar' })
   password: string;
 
-  @Column({ type: 'enum', enum: ['m', 'f', 'u'] })
-  /**
-   * m - male
-   * f - female
-   * u - unspecified
-   */
-  gender: string;
 }

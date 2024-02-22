@@ -1,8 +1,6 @@
 import {
     IsAlphanumeric,
     IsEmail,
-    IsEnum,
-    IsInt,
     IsNotEmpty,
     IsString,
     Matches,
@@ -28,13 +26,6 @@ import {
     @IsNotEmpty()
     @IsEmail(null, { message: 'Please provide valid Email.' })
     email: string;
-  
-    @IsInt()
-    age: number;
-  
-    @IsString()
-    @IsEnum(['f', 'm', 'u'])
-    gender: string;
   
     @IsNotEmpty()
     @Matches(passwordRegEx, {
