@@ -9,8 +9,10 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'postgres',
-      port: 5432,
+      //host: 'postgres',
+      host: 'localhost',
+      //port: 5432,
+      port: 5433,
       password: 'fangspassword',
       username: 'fangs',
       entities: [User],

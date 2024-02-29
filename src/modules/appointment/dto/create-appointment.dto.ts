@@ -1,6 +1,12 @@
+import { IsString, IsDateString } from "class-validator";
+
 export class CreateAppointmentDto {
-    id: string;
+    @IsString()
     patientName: string;
+
+    @IsString()
     professionalName: string;
-    date: Date 
+    
+    @IsDateString()
+    date: string;
 }

@@ -1,8 +1,8 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+
 import { AppointmentService } from './appointment.service';
 import { Appointment } from './appointment.entity';
-import { CreateAppointmentDto } from './dto/create-appointment.dto';
-import { UpdateAppointmentDto } from './dto/update-appointment.dto';
+import { CreateAppointmentDto, UpdateAppointmentDto } from './dto';
 
 @Controller('appointment')
 export class AppointmentController {
@@ -21,20 +21,14 @@ export class AppointmentController {
 
     @Post()
     createAppointment(@Body() createDto: CreateAppointmentDto) {
-        return this.appointmentService.createAppointment(
-            createDto.patientName,
-            createDto.professionalName,
-            createDto.date
-        )
+        return this.appointmentService.createAppointment(createDto)
     }
 
     @Patch(':id')
     updateAppointment(@Param('id') id: string, @Body() updateDto: UpdateAppointmentDto) {
         return this.appointmentService.updateAppointment(
             id,
-            updateDto.patientName,
-            updateDto.professionalName,
-            updateDto.date
+            updateDto
         )
     }
 

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException} from '@nestjs/common';
 import { Appointment } from './appointment.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { CreateAppointmentDto, UpdateAppointmentDto } from './dto';
 
 
 @Injectable()
@@ -27,21 +28,22 @@ export class AppointmentService {
         return appointment
     }
 
-    createAppointment(patientName: string, professionalName: string, date: Date) {
+    createAppointment({ patientName, professionalName, date } : CreateAppointmentDto) {
         const id : string = this.idService.generateUUID()
+        const aDate =  new Date(date)
         this.appointments.push({
             id,
             patientName, 
             professionalName,
-            date
+            date: aDate
         })
     }
 
-    updateAppointment(id: string, patientName: string, professionalName: string, date: Date) {
+    updateAppointment(id: string, {patientName, professionalName, date}: UpdateAppointmentDto) {
         const appointment = this.getAppointment(id);
         appointment.patientName = patientName;
         appointment.professionalName = professionalName;
-        appointment.date = date;
+        appointment.date =  new Date(date);
     }
 
     removeAppointment(id: string) {
