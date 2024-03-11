@@ -7,7 +7,9 @@ import { Repository } from 'typeorm';
 describe('AppointmentsService', () => {
   let service: AppointmentService;
   let appointmentRepository: Repository<Appointment>;
+  
   const APPOINTMENT_REPOSITORY_TOKEN = getRepositoryToken(Appointment);
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AppointmentService,
@@ -21,7 +23,7 @@ describe('AppointmentsService', () => {
           preload: jest.fn(),
           remove: jest.fn()
         }
-      }],
+      }]
     }).compile();
 
     service = module.get<AppointmentService>(AppointmentService);
