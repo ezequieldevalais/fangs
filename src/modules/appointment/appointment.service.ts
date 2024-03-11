@@ -1,57 +1,63 @@
 import { Injectable, NotFoundException} from '@nestjs/common';
 import { Appointment } from './appointment.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+
 import { v4 as uuidv4 } from 'uuid';
 import { CreateAppointmentDto, UpdateAppointmentDto } from './dto';
+import { Repository } from 'typeorm';
 
 
 @Injectable()
 export class AppointmentService {
-    private appointments: Appointment[] = [
-        {
-            id: "1",
-            patientName: "Juan Carlos",
-            professionalName: "Dr. Spitteri",
-            date: new Date()
-        }
-    ];
+
+    constructor(@InjectRepository(Appointment) private readonly appointmentRepository: Repository<Appointment>) {}
+
     private idService: IdService = new IdService()
 
-    getAppointments(): Appointment[] {
-        return this.appointments;
+    async getAppointments(): Promise<Appointment[]> {
+        return await this.appointmentRepository.find();
     }
 
-    getAppointment(id: string): Appointment {
-        const appointment = this.appointments.find((appointment) => appointment.id === id )
+    async getAppointment(id: string): Promise<Appointment> {
+        const appointment = await this.appointmentRepository.findOneBy({id});
         if(!appointment) {
             throw new NotFoundException("Resource not found");
         }
+        return appointment;
+    }
+
+    async createAppointment({ patientName, professionalName, date } : CreateAppointmentDto): Promise<Appointment> {
+        const appointment = this.appointmentRepository.create({
+            patientName: patientName,
+            professionalName,
+            date: new Date(date)
+        });
+        return this.appointmentRepository.save(appointment);
+    }
+
+    async updateAppointment(id: string, {patientName, professionalName, date}: UpdateAppointmentDto): Promise<Appointment> {
+        const appointment = this.appointmentRepository.preload({
+            id,
+            patientName,
+            professionalName,
+            date: new Date(date)
+        });
+
+        if(!appointment) {
+            throw new NotFoundException("Resource not found");
+        }
+
         return appointment
     }
 
-    createAppointment({ patientName, professionalName, date } : CreateAppointmentDto) {
-        const id : string = this.idService.generateUUID()
-        const aDate =  new Date(date)
-        this.appointments.push({
-            id,
-            patientName, 
-            professionalName,
-            date: aDate
-        })
-    }
+    async removeAppointment(id: string) : Promise<void>{
+        const appointment = await this.appointmentRepository.findOneBy({id});
 
-    updateAppointment(id: string, {patientName, professionalName, date}: UpdateAppointmentDto) {
-        const appointment = this.getAppointment(id);
-        appointment.patientName = patientName;
-        appointment.professionalName = professionalName;
-        appointment.date =  new Date(date);
-    }
-
-    removeAppointment(id: string) {
-        const index = this.appointments.findIndex((appointment) => appointment.id === id )
-        if  (index > 0) {
-            this.appointments.splice(index,1)
-
+        if(!appointment) {
+            throw new NotFoundException("Resource not found");
         }
+
+        this.appointmentRepository.remove(appointment);
     }
 }
 

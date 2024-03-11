@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { AppointmentModule } from './modules/appointment/appointment.module';
+import { Appointment } from './modules/appointment/appointment.entity';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
       port: 5433,
       password: 'fangspassword',
       username: 'fangs',
-      entities: [User],
+      entities: [User, Appointment],
       database: 'postgres',
       synchronize: true,
       logging: true,
@@ -24,3 +25,4 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
     AppointmentModule]
 })
 export class AppModule {}
+
