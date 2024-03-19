@@ -7,27 +7,31 @@ import { Repository } from 'typeorm';
 describe('AppointmentsService', () => {
   let service: AppointmentService;
   let appointmentRepository: Repository<Appointment>;
-  
+
   const APPOINTMENT_REPOSITORY_TOKEN = getRepositoryToken(Appointment);
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppointmentService,
-      {
-        provide: APPOINTMENT_REPOSITORY_TOKEN,
-        useValue: {
-          create: jest.fn(),
-          findOneBy: jest.fn(),
-          find: jest.fn(),
-          save: jest.fn(),
-          preload: jest.fn(),
-          remove: jest.fn()
-        }
-      }]
+      providers: [
+        AppointmentService,
+        {
+          provide: APPOINTMENT_REPOSITORY_TOKEN,
+          useValue: {
+            create: jest.fn(),
+            findOneBy: jest.fn(),
+            find: jest.fn(),
+            save: jest.fn(),
+            preload: jest.fn(),
+            remove: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<AppointmentService>(AppointmentService);
-    appointmentRepository = module.get<Repository<Appointment>>(APPOINTMENT_REPOSITORY_TOKEN);
+    appointmentRepository = module.get<Repository<Appointment>>(
+      APPOINTMENT_REPOSITORY_TOKEN,
+    );
   });
 
   it('should be defined', () => {
@@ -39,20 +43,21 @@ describe('AppointmentsService', () => {
   });
 
   it('create a new appointment', async () => {
-    let date = new Date()
-    let appointmentCreate = { 
+    const date = new Date();
+    const appointmentCreate = {
       patientName: 'asd',
       professionalName: 'asd',
-      date: date
-    }
-    let result = { ...appointmentCreate, id: "1"}
+      date: date,
+    };
+    const result = { ...appointmentCreate, id: '1' };
 
-    jest.spyOn(appointmentRepository, 'create').mockReturnValue(result)
+    jest.spyOn(appointmentRepository, 'create').mockReturnValue(result);
 
-    await service.createAppointment(
-      {patientName: 'asd', professionalName: 'asd', date: '2023-04-02'}
-    )
-    expect(appointmentRepository.save).toHaveBeenCalledWith(result)
-  })
-
+    await service.createAppointment({
+      patientName: 'asd',
+      professionalName: 'asd',
+      date: '2023-04-02',
+    });
+    expect(appointmentRepository.save).toHaveBeenCalledWith(result);
+  });
 });

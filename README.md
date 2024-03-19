@@ -45,6 +45,19 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Deploy the app
+
+```bash
+# Build image
+$ docker build -t fangs-back .
+
+# deploy to gcloud
+$ gcloud run deploy
+
+# production mode
+$ npm run start:prod
+```
+
 ## Test
 
 ```bash
