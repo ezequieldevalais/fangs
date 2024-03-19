@@ -9,44 +9,22 @@ import { Appointment } from './modules/appointment/appointment.entity';
 import { PetController } from './modules/pet/pet.controller';
 import { PetService } from './modules/pet/pet.service';
 
-/*@Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      //host: 'postgres',
-      host: 'localhost',
-      //port: 5432,
-      port: 5433,
-      password: 'fangspassword',
-      username: 'fangs',
-      entities: [User, Appointment],
-      database: 'postgres',
-      synchronize: true,
-      logging: true,
-    }),
-    UserModule,
-    AppointmentModule,
-  ],
-})*/
-
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      //host: 'postgres',
-      host: '34.176.136.144',
-      //port: 5432,
-      port: 5432,
-      password: 'Bsg%U8Zu0Fx5lHkE',
-      username: 'postgres',
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT) || 5432,
+      password: process.env.DB_PASSWORD || 'password',
+      username: process.env.DB_USER || 'postgres',
+      database: process.env.DB_NAME || 'postgres',
       entities: [User, Appointment],
-      database: 'fangsdb',
       synchronize: true,
       logging: true,
     }),
     UserModule,
     AppointmentModule,
-    ConfigModule.forRoot(),
   ],
   controllers: [PetController],
   providers: [PetService],

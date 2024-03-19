@@ -18,7 +18,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
  * in our case our base URL is http://localhost:3000/user
  */
 @Controller('user')
-export class UserController {BACKEND_URL
+export class UserController {
   constructor(private readonly userService: UserService) {}
 
   /**
