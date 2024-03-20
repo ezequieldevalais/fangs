@@ -1,10 +1,12 @@
 import {
   IsAlphanumeric,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsString,
   MinLength,
 } from 'class-validator';
+import { Role } from '../entities/user.entity';
 
 export class CreateUserDto {
   @IsString()
@@ -27,4 +29,8 @@ export class CreateUserDto {
   @IsString()
   @MinLength(8, { message: 'Name must have atleast 8 characters.' })
   password: string;
+
+  @IsNotEmpty()
+  @IsEnum(Role)
+  role: Role;
 }

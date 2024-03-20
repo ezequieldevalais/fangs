@@ -1,5 +1,11 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+export enum Role {
+  ADMIN = 'ADMIN',
+  PROFESSIONAL = 'PROFESIONAL',
+  RECEPTIONIST = 'RECEPTIONIST',
+}
+
 @Entity()
 export class User {
   /**
@@ -14,9 +20,16 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   username: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar' })
   email: string;
 
   @Column({ type: 'varchar' })
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    array: true,
+  })
+  roles: Role[];
 }
