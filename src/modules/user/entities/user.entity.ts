@@ -1,10 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-export enum Role {
-  ADMIN = 'ADMIN',
-  PROFESSIONAL = 'PROFESIONAL',
-  RECEPTIONIST = 'RECEPTIONIST',
-}
+import { Role } from '../../../auth/enums';
 
 @Entity()
 export class User {

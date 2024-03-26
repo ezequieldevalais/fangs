@@ -8,6 +8,11 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
 import { Appointment } from './modules/appointment/appointment.entity';
 import { PetController } from './modules/pet/pet.controller';
 import { PetService } from './modules/pet/pet.service';
+import { AuthModule } from './auth/auth.module';
+import { ACGuard, AccessControlModule } from 'nest-access-control';
+import { RBAC_POLICY } from './auth/rbac-policy';
+import { APP_GUARD } from '@nestjs/core';
+import { SessionGuard } from './auth/guards/session.guard';
 
 @Module({
   imports: [
@@ -23,10 +28,22 @@ import { PetService } from './modules/pet/pet.service';
       synchronize: true,
       logging: true,
     }),
+    AccessControlModule.forRoles(RBAC_POLICY),
+    AuthModule,
     UserModule,
     AppointmentModule,
   ],
   controllers: [PetController],
-  providers: [PetService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: SessionGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ACGuard,
+    },
+    PetService,
+  ],
 })
 export class AppModule {}

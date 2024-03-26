@@ -6,7 +6,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { Role } from '../entities/user.entity';
+import { Role } from '../../../auth/enums';
 
 export class CreateUserDto {
   @IsString()

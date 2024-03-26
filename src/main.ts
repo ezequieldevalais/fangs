@@ -18,8 +18,8 @@ async function bootstrap() {
 
   app.use(
     session({
-      resave: false,
-      saveUnitialized: false,
+      resave: true,
+      //saveUnitialized: false,
       name: 'session',
       secret: '128h38q21h38',
       cookie: {

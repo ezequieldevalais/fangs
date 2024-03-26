@@ -1,4 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, SetMetadata } from '@nestjs/common';
+import { UseRoles } from 'nest-access-control';
+
 import { PetService } from './pet.service';
 
 @Controller('pet')
@@ -10,6 +12,11 @@ export class PetController {
     return this.petService.getCat();
   }
 
+  @UseRoles({
+    resource: 'pet',
+    action: 'read',
+    possession: 'any',
+  })
   @Get('/dog')
   getDog(): string {
     return this.petService.getDog();
